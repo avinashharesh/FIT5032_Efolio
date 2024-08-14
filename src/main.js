@@ -1,6 +1,8 @@
 
 // import './style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import PrimeVue from 'primevue/config';
+
 
 
 import { createApp } from 'vue'
