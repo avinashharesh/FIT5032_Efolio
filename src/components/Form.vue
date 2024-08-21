@@ -18,6 +18,13 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" @blur="() => validateConfirmPassword(true)" @input="() => validateConfirmPassword(false)" v-model="formData.confirmPassword" />
+                            <div v-if="errors.confirmPassword" class="text-danger">{{ errors.confirmPassword }}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="isAustralian" v-model="formData.isAustralian">
                                 <label class="form-check-label" for="isAustralian">Australian Resident?</label>
@@ -65,12 +72,14 @@
     </div>
 </template>
 
+
 <script setup>
 import { ref } from 'vue';
 
 const formData = ref({
     username: '',
     password: '',
+    confirmPassword: '', // New field
     isAustralian: false,
     reason: '',
     gender: ''
@@ -81,10 +90,11 @@ const submittedCards = ref([]);
 const submitForm = () => {
     validateName(true);
     validatePassword(true);
+    validateConfirmPassword(true); // Validate confirm password
     validateGender(true);
     validateReason(true);
 
-    if (!errors.value.username && !errors.value.password && !errors.value.gender && !errors.value.reason) {
+    if (!errors.value.username && !errors.value.password && !errors.value.confirmPassword && !errors.value.gender && !errors.value.reason) {
         submittedCards.value.push({...formData.value});
         clearForm();
     }
@@ -94,6 +104,7 @@ const clearForm = () => {
     formData.value = {
         username: '',
         password: '',
+        confirmPassword: '', // Clear confirm password
         isAustralian: false,
         reason: '',
         gender: ''
@@ -103,6 +114,7 @@ const clearForm = () => {
 const errors = ref({
     username: null,
     password: null,
+    confirmPassword: null, // New error field
     gender: null,
     reason: null
 });
@@ -138,6 +150,14 @@ const validatePassword = (blur) => {
     }
 };
 
+const validateConfirmPassword = (blur) => {
+    if (formData.value.confirmPassword !== formData.value.password) {
+        if (blur) errors.value.confirmPassword = "Passwords do not match.";
+    } else {
+        errors.value.confirmPassword = null;
+    }
+};
+
 const validateGender = (blur) => {
     if (!formData.value.gender) {
         if (blur) errors.value.gender = "Gender is required.";
@@ -154,6 +174,7 @@ const validateReason = (blur) => {
     }
 };
 </script>
+
 
 <style scoped>
 .card {
