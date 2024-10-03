@@ -22,6 +22,12 @@
         <li class="nav-item">
           <router-link to="/BookList" class="nav-link" active-class="active">Book List</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/GetBookCount" class="nav-link" active-class="active">Get Book Count</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/weather" class="nav-link" active-class="active">Weather</router-link>
+        </li>
       </ul>
     </header>
   </div>
